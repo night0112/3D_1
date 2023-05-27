@@ -19,7 +19,7 @@ public class MoveLeft : MonoBehaviour
             transform.Translate(Vector3.left * Time.deltaTime * speed);
         }
 
-        if (transform.position.x < leftBound)//左の限界値(leftBound)よりも行ってしまったら
+        if (transform.position.x < leftBound && gameObject.CompareTag("Obstacle"))//左の限界値(leftBound)よりも行ってしまったら
         {
             Destroy(gameObject);//障害物を消してしまう
         }
