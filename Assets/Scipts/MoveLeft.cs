@@ -5,10 +5,23 @@ using UnityEngine;
 public class MoveLeft : MonoBehaviour
 {
     [SerializeField] float speed = 30;
-    // Start is called before the first frame update
-    // Update is called once per frame
+    PlayerController2 playerControllerScript;
+    float leftBound = -15;
+
+    private void Start()
+    {
+        playerControllerScript = GameObject.Find("Player").GetComponent<PlayerController2>();
+    }
     void Update()
     {
-        transform.Translate(Vector3.left * Time.deltaTime * speed);
+        if(playerControllerScript.gameOver == false)
+        {
+            transform.Translate(Vector3.left * Time.deltaTime * speed);
+        }
+
+        if (transform.position.x < leftBound)//左の限界値(leftBound)よりも行ってしまったら
+        {
+            Destroy(gameObject);//障害物を消してしまう
+        }
     }
 }
