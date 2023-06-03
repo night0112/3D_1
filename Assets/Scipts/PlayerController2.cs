@@ -8,6 +8,8 @@ public class PlayerController2 : MonoBehaviour
     [SerializeField] float jumpForce;
     [SerializeField] float gravityModifier;
     [SerializeField] bool isOnGround = true;
+    [SerializeField] ParticleSystem explosionParticle;
+    [SerializeField] ParticleSystem dirtParticle;
     public bool gameOver;
     Animator playerAnim;
     // Start is called before the first frame update
@@ -27,6 +29,7 @@ public class PlayerController2 : MonoBehaviour
             playerRb.AddForce(Vector3.up * jumpForce,ForceMode.Impulse);
             isOnGround = false;//ジャンプした＝地面にいない
             playerAnim.SetTrigger("Jump_trig");
+            dirtParticle.Stop();
         }
     }
     //衝突が起きたら実行
@@ -37,6 +40,11 @@ public class PlayerController2 : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;//地面についている状態に変更
+            if(gameOver == false)
+            {
+                dirtParticle.Play();
+            }
+            
         }
 
         if (collision.gameObject.CompareTag("Obstacle"))
@@ -44,6 +52,8 @@ public class PlayerController2 : MonoBehaviour
             gameOver = true;//ゲームオーバー
             playerAnim.SetBool("Death_b", true);
             playerAnim.SetInteger("DeathType_int", 1);
+            explosionParticle.Play();
+            dirtParticle.Stop();
         }
     }
 }
